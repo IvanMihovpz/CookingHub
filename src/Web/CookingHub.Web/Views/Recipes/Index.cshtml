@@ -7,6 +7,8 @@
 }
 
 @{
+    var searchParamInit = TempData["SearchParam"];
+    var ratingParam = TempData["Rating"];
     var prevDisabled = !Model.RecipesPaginated.HasPreviousPage ? "disabled" : "";
     var prevPage = !Model.RecipesPaginated.HasPreviousPage ? "1" : (Model.RecipesPaginated.PageIndex - 1).ToString();
     var nextDisabled = !Model.RecipesPaginated.HasNextPage ? "disabled" : "";
@@ -61,6 +63,7 @@
         <div class="row inner-menu-box">
             <div class="col-3">
                 <div class="nav nav-pills" id="v-pills-tab" role="tabpanel" aria-orientation="vertical">
+                    <div style="display: block; font-size: 24px; left: 50px; position: relative;">Categories</div>
                     <div id="myTab" class="nav flex-column nav-tabs" role="tablist">
                         <a class="nav-link @(!hasQueryString || isAllTabSelected ? "active" : "")" asp-action="Index">All</a>
                         @foreach (var category in Model.Categories)
@@ -72,11 +75,37 @@
                             </a>
                         }
                     </div>
+                    <div style="display: block; font-size: 24px; left: 50px; position: relative;">Ratings</div>
+                    <div style="top: 40px; position: relative; right: 85px;" id="myTab" class="nav flex-column nav-tabs" role="tablist">
+                        <a class="nav-link @(ratingParam.ToString() == "0" || ratingParam == null)" asp-action="Index">All</a>
+                        <a class="nav-link @(ratingParam.ToString() == "1")" asp-action="Index"  asp-route-rating="1">
+                            <i class="fas fa-star star"></i>
+                        </a>
+                        <a class="nav-link @(ratingParam.ToString() == "2")" asp-action="Index" asp-route-rating="2">
+                            <i class="fas fa-star star"></i>
+                            <i class="fas fa-star star"></i>
+                        </a>
+                        <a class="nav-link @(ratingParam.ToString() == "3")" asp-action="Index" asp-route-rating="3">
+                            <i class="fas fa-star star"></i>
+                            <i class="fas fa-star star"></i>
+                            <i class="fas fa-star star"></i>
+                        </a>
+                        <a class="nav-link @(ratingParam.ToString() == "4")" asp-action="Index" asp-route-rating="4">
+                            <i class="fas fa-star star"></i>
+                            <i class="fas fa-star star"></i>
+                            <i class="fas fa-star star"></i>
+                            <i class="fas fa-star star"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
             <div class="col-9">
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                        <form class="example" asp-controller="Recipes" asp-route-categoryName="@queryParameter" asp-action="SearchRecipes">
+                            <input value="@searchParamInit" name="searchParam" type="text" placeholder="Search recipes ...." />
+                            <button type="submit"><i class="fa fa-search"></i></button>
+                        </form>
                         <div class="row">
                             @if (Model.RecipesPaginated.Count != 0)
                             {

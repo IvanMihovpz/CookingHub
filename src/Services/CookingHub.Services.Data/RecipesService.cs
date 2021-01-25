@@ -169,7 +169,7 @@
             return topRecipes;
         }
 
-        public IQueryable<TViewModel> GetAllRecipesByFilterAsQueryeable<TViewModel>(string categoryName = null)
+        public IQueryable<TViewModel> GetAllRecipesByFilterAsQueryeable<TViewModel>(string categoryName = null, int rating)
         {
             var recipesByFilter = Enumerable.Empty<TViewModel>().AsQueryable();
 
@@ -229,6 +229,31 @@
                 .ToListAsync();
 
             return recipe;
+        }
+
+        public IQueryable<TViewModel> SearchRecipesAsync<TViewModel>(string searchParam, string category, int rating)
+        {
+            var recipes = Enumerable.Empty<TViewModel>().AsQueryable();
+
+            var lowerCasedSearchParam = searchParam.ToLower();
+            var recipesByFilter = Enumerable.Empty<TViewModel>().AsQueryable();
+            if (category != null)
+            {
+                recipes = this.recipesRepository
+                .All()
+                .Where(r => r.Category.Name == category && r.Rate >= rating && (r.Description.ToLower().Contains(searchParam) || r.Name.ToLower().Contains(searchParam)))
+                .To<TViewModel>();
+            }
+            else
+            {
+                recipes = this.recipesRepository
+                .All()
+                .Where(r => r.Rate >= rating && r.Description.ToLower().Contains(searchParam) || r.Name.ToLower().Contains(searchParam))
+                .To<TViewModel>();
+
+            }
+
+            return recipes;
         }
     }
 }

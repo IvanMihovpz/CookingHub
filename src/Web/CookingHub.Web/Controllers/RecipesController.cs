@@ -34,7 +34,7 @@
             this.reviewsService = reviewsService;
         }
 
-        public async Task<IActionResult> Index(string categoryName, int? pageNumber)
+        public async Task<IActionResult> Index(string categoryName, string rating, int? pageNumber)
         {
             this.TempData["CategoryName"] = categoryName;
 
@@ -149,5 +149,35 @@
             var recipe = await this.recipesService.GetViewModelByIdAsync<RecipeDetailsViewModel>(id);
             return recipe;
         }
+
+        [HttpPost]
+        public async Task<IActionResult> SearchRecipes(string searchParam, string categoryName, string rating, int? pageNumber)
+        {
+            this.TempData["CategoryName"] = categoryName;
+            this.TempData["SearchParam"] = searchParam;
+            this.TempData["Rating"] = rating;
+
+            var recipes = this.recipesService
+                .SearchRecipesAsync<RecipeListingViewModel>(searchParam, categoryName, int.Parse(rating));
+
+            var recipesPaginated = await PaginatedList<RecipeListingViewModel>
+                .CreateAsync(recipes, pageNumber ?? 1, PageSize);
+
+            var categories = await this.categoriesService
+                .GetAllCategoriesAsync<CategoryListingViewModel>();
+
+            var reviews = await this.reviewsService
+                .GetTopReviews<ReviewListingViewModel>();
+
+            var model = new RecipeIndexPageViewModel
+            {
+                RecipesPaginated = recipesPaginated,
+                Categories = categories,
+                Reviews = reviews,
+            };
+
+            return this.View("Index", model);
+        }
+
     }
 }

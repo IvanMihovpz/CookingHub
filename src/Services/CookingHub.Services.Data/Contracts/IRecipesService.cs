@@ -24,5 +24,6 @@
         Task<IEnumerable<TViewModel>> GetAllRecipesByUserId<TViewModel>(string userId);
 
         Task<TViewModel> GetRecipeAsync<TViewModel>(string name);
+        IQueryable<TViewModel> SearchRecipesAsync<TViewModel>(string searchParam, string category, int rating);
     }
 }
