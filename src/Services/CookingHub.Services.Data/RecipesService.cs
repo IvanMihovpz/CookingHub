@@ -169,7 +169,7 @@
             return topRecipes;
         }
 
-        public IQueryable<TViewModel> GetAllRecipesByFilterAsQueryeable<TViewModel>(string categoryName = null, int rating)
+        public IQueryable<TViewModel> GetAllRecipesByFilterAsQueryeable<TViewModel>(string categoryName = null)
         {
             var recipesByFilter = Enumerable.Empty<TViewModel>().AsQueryable();
 

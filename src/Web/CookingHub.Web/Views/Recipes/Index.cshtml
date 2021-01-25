@@ -77,20 +77,20 @@
                     </div>
                     <div style="display: block; font-size: 24px; left: 50px; position: relative;">Ratings</div>
                     <div style="top: 40px; position: relative; right: 85px;" id="myTab" class="nav flex-column nav-tabs" role="tablist">
-                        <a class="nav-link @(ratingParam.ToString() == "0" || ratingParam == null)" asp-action="Index">All</a>
-                        <a class="nav-link @(ratingParam.ToString() == "1")" asp-action="Index"  asp-route-rating="1">
+                        <a class="nav-link @(ratingParam == null || ratingParam == "0" ? "active" : "" )" asp-action="Index">All</a>
+                        <a class="nav-link @(ratingParam == null ? "" : ratingParam.ToString() == "1" ? "active" : "")" asp-action="Index" asp-route-rating="1">
                             <i class="fas fa-star star"></i>
                         </a>
-                        <a class="nav-link @(ratingParam.ToString() == "2")" asp-action="Index" asp-route-rating="2">
-                            <i class="fas fa-star star"></i>
-                            <i class="fas fa-star star"></i>
-                        </a>
-                        <a class="nav-link @(ratingParam.ToString() == "3")" asp-action="Index" asp-route-rating="3">
-                            <i class="fas fa-star star"></i>
+                        <a class="nav-link @( ratingParam == null ? "" : ratingParam.ToString() == "2" ? "active" : "")" asp-action="Index" asp-route-rating="2">
                             <i class="fas fa-star star"></i>
                             <i class="fas fa-star star"></i>
                         </a>
-                        <a class="nav-link @(ratingParam.ToString() == "4")" asp-action="Index" asp-route-rating="4">
+                        <a class="nav-link @(ratingParam == null ? "" : ratingParam.ToString() == "3" ? "active" : "")" asp-action="Index" asp-route-rating="3">
+                            <i class="fas fa-star star"></i>
+                            <i class="fas fa-star star"></i>
+                            <i class="fas fa-star star"></i>
+                        </a>
+                        <a class="nav-link @(ratingParam == null ? "" : ratingParam.ToString() == "4" ? "active" : "")" asp-action="Index" asp-route-rating="4">
                             <i class="fas fa-star star"></i>
                             <i class="fas fa-star star"></i>
                             <i class="fas fa-star star"></i>
