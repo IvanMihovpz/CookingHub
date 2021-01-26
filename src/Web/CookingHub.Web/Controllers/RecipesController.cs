@@ -37,9 +37,10 @@
         public async Task<IActionResult> Index(string categoryName, string rating, int? pageNumber)
         {
             this.TempData["CategoryName"] = categoryName;
+            this.TempData["Rating"] = rating;
 
             var recipes = this.recipesService
-                .GetAllRecipesByFilterAsQueryeable<RecipeListingViewModel>(categoryName);
+                .GetAllRecipesByFilterAsQueryeable<RecipeListingViewModel>(categoryName, rating == null ? null : int.Parse(rating));
 
             var recipesPaginated = await PaginatedList<RecipeListingViewModel>
                 .CreateAsync(recipes, pageNumber ?? 1, PageSize);
@@ -158,7 +159,7 @@
             this.TempData["Rating"] = rating;
 
             var recipes = this.recipesService
-                .SearchRecipesAsync<RecipeListingViewModel>(searchParam, categoryName, int.Parse(rating));
+                .SearchRecipesAsync<RecipeListingViewModel>(searchParam, categoryName, rating == null ? null : int.Parse(rating));
 
             var recipesPaginated = await PaginatedList<RecipeListingViewModel>
                 .CreateAsync(recipes, pageNumber ?? 1, PageSize);

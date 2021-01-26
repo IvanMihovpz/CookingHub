@@ -169,22 +169,41 @@
             return topRecipes;
         }
 
-        public IQueryable<TViewModel> GetAllRecipesByFilterAsQueryeable<TViewModel>(string categoryName = null)
+        public IQueryable<TViewModel> GetAllRecipesByFilterAsQueryeable<TViewModel>(string categoryName = null, int? rating = null)
         {
             var recipesByFilter = Enumerable.Empty<TViewModel>().AsQueryable();
 
             if (!string.IsNullOrEmpty(categoryName) && categoryName != AllPaginationFilter)
             {
-                recipesByFilter = this.recipesRepository
-                    .All()
-                    .Where(x => x.Category.Name == categoryName)
-                    .To<TViewModel>();
+                if (rating != null)
+                {
+                    recipesByFilter = this.recipesRepository
+                        .All()
+                        .Where(x => x.Category.Name == categoryName && x.Rate == rating)
+                        .To<TViewModel>();
+                }
+                else
+                {
+                    recipesByFilter = this.recipesRepository
+                        .All()
+                        .Where(x => x.Category.Name == categoryName)
+                        .To<TViewModel>();
+                }
             }
             else
             {
-                recipesByFilter = this.GetAllRecipesAsQueryeable<TViewModel>();
+                if (rating != null)
+                {
+                    recipesByFilter = this.recipesRepository
+                        .All()
+                        .Where(x => x.Rate == rating)
+                        .To<TViewModel>();
+                }
+                else
+                {
+                    recipesByFilter = this.GetAllRecipesAsQueryeable<TViewModel>();
+                }
             }
-
             return recipesByFilter;
         }
 
@@ -231,7 +250,7 @@
             return recipe;
         }
 
-        public IQueryable<TViewModel> SearchRecipesAsync<TViewModel>(string searchParam, string category, int rating)
+        public IQueryable<TViewModel> SearchRecipesAsync<TViewModel>(string searchParam, string category, int? rating)
         {
             var recipes = Enumerable.Empty<TViewModel>().AsQueryable();
 
@@ -239,17 +258,37 @@
             var recipesByFilter = Enumerable.Empty<TViewModel>().AsQueryable();
             if (category != null)
             {
-                recipes = this.recipesRepository
-                .All()
-                .Where(r => r.Category.Name == category && r.Rate >= rating && (r.Description.ToLower().Contains(searchParam) || r.Name.ToLower().Contains(searchParam)))
-                .To<TViewModel>();
+                if (rating != null)
+                {
+                    recipes = this.recipesRepository
+                    .All()
+                    .Where(r => r.Category.Name == category && r.Rate == rating && (r.Description.ToLower().Contains(searchParam) || r.Name.ToLower().Contains(searchParam)))
+                    .To<TViewModel>();
+                }
+                else
+                {
+                    recipes = this.recipesRepository
+                    .All()
+                    .Where(r => r.Category.Name == category && (r.Description.ToLower().Contains(searchParam) || r.Name.ToLower().Contains(searchParam)))
+                    .To<TViewModel>();
+                }
             }
             else
             {
-                recipes = this.recipesRepository
-                .All()
-                .Where(r => r.Rate >= rating && r.Description.ToLower().Contains(searchParam) || r.Name.ToLower().Contains(searchParam))
-                .To<TViewModel>();
+                if (rating != null)
+                {
+                    recipes = this.recipesRepository
+                    .All()
+                    .Where(r => r.Rate >= rating && (r.Description.ToLower().Contains(searchParam) || r.Name.ToLower().Contains(searchParam)))
+                    .To<TViewModel>();
+                }
+                else
+                {
+                    recipes = this.recipesRepository
+                    .All()
+                    .Where(r => r.Description.ToLower().Contains(searchParam) || r.Name.ToLower().Contains(searchParam))
+                    .To<TViewModel>();
+                }
 
             }
 

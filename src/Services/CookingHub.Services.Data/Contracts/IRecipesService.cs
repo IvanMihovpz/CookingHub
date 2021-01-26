@@ -17,13 +17,13 @@
 
         IQueryable<TViewModel> GetAllRecipesAsQueryeable<TViewModel>();
 
-        IQueryable<TViewModel> GetAllRecipesByFilterAsQueryeable<TViewModel>(string categoryName = null);
+        IQueryable<TViewModel> GetAllRecipesByFilterAsQueryeable<TViewModel>(string categoryName = null, int? rating = null);
 
         Task<IEnumerable<TViewModel>> GetTopRecipesAsync<TViewModel>(int count = 0);
 
         Task<IEnumerable<TViewModel>> GetAllRecipesByUserId<TViewModel>(string userId);
 
         Task<TViewModel> GetRecipeAsync<TViewModel>(string name);
-        IQueryable<TViewModel> SearchRecipesAsync<TViewModel>(string searchParam, string category, int rating);
+        IQueryable<TViewModel> SearchRecipesAsync<TViewModel>(string searchParam, string category, int? rating);
     }
 }
