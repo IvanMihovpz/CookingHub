@@ -80,22 +80,22 @@
                     <div style="top: 40px; position: relative; right: 85px;" id="myTab" class="nav flex-column nav-tabs" role="tablist">
                         <a class="nav-link @(ratingParam == null || ratingParam == "0" ? "active" : "" )" asp-route-categoryName="@categoryNameParam" asp-action="Index">All</a>
                         <a class="nav-link @(ratingParam == null ? "" : ratingParam.ToString() == "1" ? "active" : "")" asp-action="Index" asp-route-rating="1" asp-route-categoryName="@categoryNameParam">
-                            <i class="fas fa-star star"></i>
+                            <i>&#11088;</i>
                         </a>
                         <a class="nav-link @( ratingParam == null ? "" : ratingParam.ToString() == "2" ? "active" : "")" asp-action="Index" asp-route-rating="2" asp-route-categoryName="@categoryNameParam">
-                            <i class="fas fa-star star"></i>
-                            <i class="fas fa-star star"></i>
+                            <i>&#11088;</i>
+                            <i>&#11088;</i>
                         </a>
                         <a class="nav-link @(ratingParam == null ? "" : ratingParam.ToString() == "3" ? "active" : "")" asp-action="Index" asp-route-rating="3" asp-route-categoryName="@categoryNameParam">
-                            <i class="fas fa-star star"></i>
-                            <i class="fas fa-star star"></i>
-                            <i class="fas fa-star star"></i>
+                            <i>&#11088;</i>
+                            <i>&#11088;</i>
+                            <i>&#11088;</i>
                         </a>
                         <a class="nav-link @(ratingParam == null ? "" : ratingParam.ToString() == "4" ? "active" : "")" asp-action="Index" asp-route-rating="4" asp-route-categoryName="@categoryNameParam">
-                            <i class="fas fa-star star"></i>
-                            <i class="fas fa-star star"></i>
-                            <i class="fas fa-star star"></i>
-                            <i class="fas fa-star star"></i>
+                            <i>&#11088;</i>
+                            <i>&#11088;</i>
+                            <i>&#11088;</i>
+                            <i>&#11088;</i>
                         </a>
                     </div>
                 </div>
